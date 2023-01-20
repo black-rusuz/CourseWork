@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="PhotoHaven:jar">
+    <output-path>$PROJECT_DIR$/</output-path>
+    <root id="archive" name="PhotoHaven.jar">
+      <element id="module-output" name="PhotoHaven" />
+    </root>
+  </artifact>
+</component>
