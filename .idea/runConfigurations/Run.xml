@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="ru.sfedu.artsale.ArtSaleClient" />
+    <module name="ArtSale" />
+    <option name="PROGRAM_PARAMETERS" value="JDBC viewProducts any 21" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
