@@ -2,6 +2,8 @@ package ru.sfedu.trainpick.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.sfedu.trainpick.model.bean.*;
+import ru.sfedu.trainpick.utils.converters.PassengerConverter;
+import ru.sfedu.trainpick.utils.converters.TrainConverter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -146,25 +148,81 @@ public class JdbcUtil {
     public static <T> List<T> readData(Class<T> type, ResultSet rs) throws SQLException {
         List list = new ArrayList<>();
         if (type == ChildPassenger.class) list = readChildPassenger(rs);
-//        if (type == DiscountPassenger.class) list = readElectricPart(rs);
-//        if (type == Passenger.class) list = readOrder(rs);
-//        if (type == Ticket.class) list = readRunningPart(rs);
-//        if (type == Train.class) list = readUser(rs);
+        if (type == DiscountPassenger.class) list = readDiscountPassenger(rs);
+        if (type == Passenger.class) list = readPassenger(rs);
+        if (type == Ticket.class) list = readTicket(rs);
+        if (type == Train.class) list = readTrain(rs);
         return list;
     }
 
     private static List<ChildPassenger> readChildPassenger(ResultSet rs) throws SQLException {
         List<ChildPassenger> list = new ArrayList<>();
         while (rs.next()) {
-//            BodyPart bean = new BodyPart();
-//            bean.setId(rs.getLong(1));
-//            bean.setName(rs.getString(2));
-//            bean.setPrice(rs.getDouble(3));
-//            bean.setVinPart(rs.getString(4));
-//            bean.setWarranty(rs.getInt(5));
-//            bean.setColor(rs.getString(6));
-//            bean.setSide(rs.getString(7));
-//            list.add(bean);
+            ChildPassenger bean = new ChildPassenger();
+            bean.setId(rs.getLong(1));
+            bean.setFullName(rs.getString(2));
+            bean.setBirthDate(rs.getString(3));
+            bean.setDocument(rs.getString(4));
+            bean.setNoPlace(rs.getBoolean(5));
+            list.add(bean);
+        }
+        return list;
+    }
+
+    private static List<DiscountPassenger> readDiscountPassenger(ResultSet rs) throws SQLException {
+        List<DiscountPassenger> list = new ArrayList<>();
+        while (rs.next()) {
+            DiscountPassenger bean = new DiscountPassenger();
+            bean.setId(rs.getLong(1));
+            bean.setFullName(rs.getString(2));
+            bean.setBirthDate(rs.getString(3));
+            bean.setDocument(rs.getString(4));
+            bean.setDiscount(rs.getDouble(5));
+            bean.setReason(rs.getString(6));
+            list.add(bean);
+        }
+        return list;
+    }
+
+    private static List<Passenger> readPassenger(ResultSet rs) throws SQLException {
+        List<Passenger> list = new ArrayList<>();
+        while (rs.next()) {
+            Passenger bean = new ChildPassenger();
+            bean.setId(rs.getLong(1));
+            bean.setFullName(rs.getString(2));
+            bean.setBirthDate(rs.getString(3));
+            bean.setDocument(rs.getString(4));
+            list.add(bean);
+        }
+        return list;
+    }
+
+    private static List<Ticket> readTicket(ResultSet rs) throws SQLException {
+        List<Ticket> list = new ArrayList<>();
+        while (rs.next()) {
+            Ticket bean = new Ticket();
+            bean.setId(rs.getLong(1));
+            bean.setPassenger(PassengerConverter.fromString(rs.getString(2)));
+            bean.setTrain(TrainConverter.fromString(rs.getString(3)));
+            bean.setDuration(rs.getString(4));
+            bean.setCost(rs.getDouble(5));
+            bean.setPaid(rs.getBoolean(6));
+            list.add(bean);
+        }
+        return list;
+    }
+
+    private static List<Train> readTrain(ResultSet rs) throws SQLException {
+        List<Train> list = new ArrayList<>();
+        while (rs.next()) {
+            Train bean = new Train();
+            bean.setId(rs.getLong(1));
+            bean.setFrom(rs.getString(2));
+            bean.setTo(rs.getString(3));
+            bean.setDeparture(rs.getString(4));
+            bean.setArrival(rs.getString(5));
+            bean.setPrice(rs.getDouble(6));
+            list.add(bean);
         }
         return list;
     }
