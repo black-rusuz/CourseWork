@@ -10,9 +10,13 @@ import ru.sfedu.trainpick.utils.MongoUtil;
 import ru.sfedu.trainpick.utils.ReflectUtil;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("UnusedReturnValue")
 public abstract class AbstractDataProvider {
@@ -69,6 +73,122 @@ public abstract class AbstractDataProvider {
 
     // USE CASES
 
+    private Optional<Passenger> findPassenger(long passengerId) {
+        Passenger p = getPassenger(passengerId);
+        Passenger cp = getChildPassenger(passengerId);
+        Passenger dp = getDiscountPassenger(passengerId);
+
+        if (p.getId() == 0 && cp.getId() == 0 && dp.getId() == 0) {
+            log.info(getNotFoundMessage(Passenger.class, passengerId));
+            return Optional.empty();
+        }
+
+        List<Passenger> passengers = List.of(p, cp, dp);
+        return passengers.stream().filter(e -> e.getId() != 0).findFirst();
+    }
+
+    public Optional<Ticket> addPassenger(String from, String to, long passengerId, boolean isPaid) {
+        Optional<Ticket> result;
+        Optional<Train> optionalTrain = findTrain(from, to);
+        Optional<Passenger> optionalPassenger = findPassenger(passengerId);
+
+        if (optionalTrain.isPresent() && optionalPassenger.isPresent()) {
+            Train train = optionalTrain.get();
+            String duration = calculateDuration(train.getDeparture(), train.getArrival());
+
+            Passenger passenger = optionalPassenger.get();
+            double cost = train.getPrice();
+            if (passenger instanceof DiscountPassenger dp) {
+                calculatePrice(train.getPrice(), dp.getDiscount());
+            }
+
+            Ticket ticket = new Ticket();
+            ticket.setPassenger(passenger);
+            ticket.setTrain(train);
+            ticket.setDuration(duration);
+            ticket.setCost(cost);
+            ticket.setPaid(isPaid);
+            insertTicket(ticket);
+            result = Optional.of(ticket);
+            log.info(String.format(Constants.TICKET, ticket));
+        } else {
+            result = Optional.empty();
+        }
+        return result;
+    }
+
+    public Optional<Train> findTrain(String from, String to) {
+        List<Train> trains = getTrains();
+        trains = trains.stream()
+                .filter((e) -> e.getFrom().equalsIgnoreCase(from) && e.getTo().equalsIgnoreCase(to))
+                .toList();
+        Optional<Train> result;
+        if (trains.isEmpty()) {
+            result = Optional.empty();
+            log.info(String.format(Constants.NO_TRAINS, from, to));
+        } else {
+            result = Optional.of(trains.get(0));
+            log.info(String.format(Constants.TRAIN, trains.get(0)));
+        }
+        return result;
+    }
+
+    private LocalDateTime getDate(String dateTime) {
+        String[] dateAndTime = dateTime.split(" ");
+        String date = dateAndTime[0];
+        String time = dateAndTime[1];
+        List<Integer> dateNumbers = Arrays.stream(date.split("\\.")).map(Integer::parseInt).toList();
+        List<Integer> timeNumbers = Arrays.stream(time.split(":")).map(Integer::parseInt).toList();
+        return LocalDateTime.of(dateNumbers.get(2), dateNumbers.get(1), dateNumbers.get(0), timeNumbers.get(0), timeNumbers.get(1));
+    }
+
+    public String calculateDuration(String departure, String arrival) {
+        LocalDateTime dep = getDate(departure);
+        LocalDateTime arr = getDate(arrival);
+        Duration duration = Duration.between(dep, arr);
+        long days = duration.toDays();
+        long hours = duration.toHours();
+        hours = hours - days * 24;
+        String dur = String.format(Constants.DURATION, days, hours);
+        log.info(dur);
+        return dur;
+    }
+
+    public double calculatePrice(double price, double discount) {
+        double cost = price * discount;
+        log.info(String.format(Constants.COST, cost));
+        return cost;
+    }
+
+    public List<Passenger> viewPassengers(long trainId, long ticketId) {
+        if (ticketId != 0) {
+            payTicket(ticketId);
+        }
+        Train train = getTrain(trainId);
+        List<Ticket> tickets = getTickets();
+        List<Passenger> passengers = tickets.stream()
+                .filter((e) -> e.getTrain().equals(train))
+                .map(Ticket::getPassenger)
+                .toList();
+        log.info(String.format(Constants.PASSENGERS, train.getId()) + passengers.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining("\n")));
+        return passengers;
+    }
+
+    public Optional<Ticket> payTicket(long ticketId) {
+        Optional<Ticket> result;
+        Ticket ticket = getTicket(ticketId);
+        if (ticket.getId() != 0) {
+            ticket.setPaid(true);
+            updateTicket(ticket);
+            result = Optional.of(ticket);
+            log.info(String.format(Constants.TICKET_PAID, ticket.getId()));
+        } else {
+            result = Optional.empty();
+        }
+        return result;
+    }
 
     // CRUD
 

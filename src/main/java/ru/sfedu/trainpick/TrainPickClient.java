@@ -16,8 +16,8 @@ public class TrainPickClient {
     public static void main(String[] args) {
         checkArgumentsCount(args);
         dp = getDataProvider(args[0]);
-//        if (dp.getOrders().isEmpty()) loadSampleData();
-//
+        if (dp.getTrains().isEmpty()) loadSampleData();
+
 //        switch (args[1].toUpperCase()) {
 //            case (Constants.SEARCH_PARTS) -> dp.searchParts(args[2], args[3]);
 //            case (Constants.SEARCH_BY_NAME) -> dp.searchByName(args[2]);
@@ -52,5 +52,20 @@ public class TrainPickClient {
 
     private static void loadSampleData() {
         TestData td = new TestData();
+
+        dp.insertChildPassenger(td.cp1);
+        dp.insertChildPassenger(td.cp2);
+
+        dp.insertDiscountPassenger(td.dp1);
+        dp.insertDiscountPassenger(td.dp2);
+
+        dp.insertPassenger(td.ps1);
+        dp.insertPassenger(td.ps2);
+
+        dp.insertTrain(td.tr1);
+        dp.insertTrain(td.tr2);
+
+        dp.insertTicket(td.ti1);
+        dp.insertTicket(td.ti2);
     }
 }

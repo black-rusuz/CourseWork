@@ -41,4 +41,12 @@ public class Constants {
     public static final String FEW_ARGS = "Few arguments";
     public static final String WRONG_DP = "Wrong type of DataProvider";
     public static final String WRONG_ARG = "Wrong argument";
+
+    public static final String DURATION = "Trip duration: %d day(s), %d hours";
+    public static final String COST = "Trip cost: %.2f roubles";
+    public static final String TICKET = "Your ticket: %s";
+    public static final String NO_TRAINS = "There are no trains from %s to %s";
+    public static final String TRAIN = "Found train: %s";
+    public static final String PASSENGERS = "Passengers of train %d: \n";
+    public static final String TICKET_PAID = "Ticket %d paid successfully";
 }
