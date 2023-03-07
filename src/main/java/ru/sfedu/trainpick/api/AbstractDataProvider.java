@@ -103,6 +103,7 @@ public abstract class AbstractDataProvider {
             }
 
             Ticket ticket = new Ticket();
+            ticket.setId(System.currentTimeMillis());
             ticket.setPassenger(passenger);
             ticket.setTrain(train);
             ticket.setDuration(duration);

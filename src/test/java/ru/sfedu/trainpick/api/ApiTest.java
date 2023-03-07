@@ -10,6 +10,12 @@ public abstract class ApiTest extends TestData {
 
     @Test
     void test() {
+        dp.addPassenger(tr1.getFrom(), tr1.getTo(), cp1.getId(), false);
+        dp.findTrain(tr1.getFrom(), tr1.getTo());
+        dp.calculateDuration(tr2.getDeparture(), tr2.getArrival());
+        dp.calculatePrice(tr2.getPrice(), 0.5);
+        dp.viewPassengers(tr1.getId(), 0);
+        dp.payTicket(ti1.getId());
     }
 
     @BeforeEach
