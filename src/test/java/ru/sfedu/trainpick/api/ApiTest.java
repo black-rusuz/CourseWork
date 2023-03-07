@@ -14,6 +14,11 @@ import java.util.Optional;
 public abstract class ApiTest extends TestData {
     protected AbstractDataProvider dp;
 
+    @Test
+    void test() {
+        dp = new DataProviderXml();
+    }
+
     @BeforeEach
     void setUp() {
 //        dp.insertBodyPart(b1);

@@ -3,6 +3,7 @@ package ru.sfedu.trainpick.api;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.sfedu.trainpick.model.HistoryContent;
+import ru.sfedu.trainpick.model.bean.*;
 import ru.sfedu.trainpick.utils.ConfigurationUtil;
 import ru.sfedu.trainpick.utils.Constants;
 import ru.sfedu.trainpick.utils.MongoUtil;
@@ -70,4 +71,108 @@ public abstract class AbstractDataProvider {
 
 
     // CRUD
+
+    public List<ChildPassenger> getChildPassengers() {
+        return getAll(ChildPassenger.class);
+    }
+
+    public ChildPassenger getChildPassenger(long id) {
+        return getById(ChildPassenger.class, id);
+    }
+
+    public long insertChildPassenger(ChildPassenger childPassenger) {
+        return insert(ChildPassenger.class, childPassenger);
+    }
+
+    public boolean deleteChildPassenger(long id) {
+        return delete(ChildPassenger.class, id);
+    }
+
+    public boolean updateChildPassenger(ChildPassenger childPassenger) {
+        return update(ChildPassenger.class, childPassenger);
+    }
+
+
+    public List<DiscountPassenger> getDiscountPassengers() {
+        return getAll(DiscountPassenger.class);
+    }
+
+    public DiscountPassenger getDiscountPassenger(long id) {
+        return getById(DiscountPassenger.class, id);
+    }
+
+    public long insertDiscountPassenger(DiscountPassenger discountPassenger) {
+        return insert(DiscountPassenger.class, discountPassenger);
+    }
+
+    public boolean deleteDiscountPassenger(long id) {
+        return delete(DiscountPassenger.class, id);
+    }
+
+    public boolean updateDiscountPassenger(DiscountPassenger discountPassenger) {
+        return update(DiscountPassenger.class, discountPassenger);
+    }
+
+
+    public List<Passenger> getPassengers() {
+        return getAll(Passenger.class);
+    }
+
+    public Passenger getPassenger(long id) {
+        return getById(Passenger.class, id);
+    }
+
+    public long insertPassenger(Passenger passenger) {
+        return insert(Passenger.class, passenger);
+    }
+
+    public boolean deletePassenger(long id) {
+        return delete(Passenger.class, id);
+    }
+
+    public boolean updatePassenger(Passenger passenger) {
+        return update(Passenger.class, passenger);
+    }
+
+
+    public List<Ticket> getTickets() {
+        return getAll(Ticket.class);
+    }
+
+    public Ticket getTicket(long id) {
+        return getById(Ticket.class, id);
+    }
+
+    public long insertTicket(Ticket ticket) {
+        return insert(Ticket.class, ticket);
+    }
+
+    public boolean deleteTicket(long id) {
+        return delete(Ticket.class, id);
+    }
+
+    public boolean updateTicket(Ticket ticket) {
+        return update(Ticket.class, ticket);
+    }
+
+
+    public List<Train> getTrains() {
+        return getAll(Train.class);
+    }
+
+    public Train getTrain(long id) {
+        return getById(Train.class, id);
+    }
+
+    public long insertTrain(Train train) {
+        return insert(Train.class, train);
+    }
+
+    public boolean deleteTrain(long id) {
+        return delete(Train.class, id);
+    }
+
+    public boolean updateTrain(Train train) {
+        return update(Train.class, train);
+    }
 }
