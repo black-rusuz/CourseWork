@@ -127,7 +127,9 @@ public class DataProviderJdbc extends AbstractDataProvider {
             log.warn(getNotFoundMessage(type, id));
             return false;
         }
-        return write(Constants.METHOD_NAME_DELETE, ReflectUtil.getEmptyObject(type));
+        T bean = ReflectUtil.getEmptyObject(type);
+        ReflectUtil.setId(bean, id);
+        return write(Constants.METHOD_NAME_DELETE, bean);
     }
 
     @Override
