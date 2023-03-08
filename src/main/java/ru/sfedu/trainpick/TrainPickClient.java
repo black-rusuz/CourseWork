@@ -38,14 +38,11 @@ public class TrainPickClient {
     }
 
     private static AbstractDataProvider getDataProvider(String dataProviderSource) {
-        if (dataProviderSource.equalsIgnoreCase(Constants.XML)) return new DataProviderXml();
-        else if (dataProviderSource.equalsIgnoreCase(Constants.CSV)) return new DataProviderCsv();
-        else if (dataProviderSource.equalsIgnoreCase(Constants.JDBC)) return new DataProviderJdbc();
-        else {
-            log.error(Constants.WRONG_DP);
-            System.exit(0);
-            return null;
-        }
+        return switch (dataProviderSource.toUpperCase()) {
+            case (Constants.XML) -> new DataProviderXml();
+            case (Constants.CSV) -> new DataProviderCsv();
+            case (Constants.JDBC) -> new DataProviderJdbc();
+        };
     }
 
     private static void loadSampleData() {
