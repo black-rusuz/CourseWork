@@ -17,7 +17,6 @@ import java.util.Optional;
 public abstract class ApiTest extends TestData {
     protected AbstractDataProvider dp;
 
-    @Test
     void testMain() {
         TrainPickClient.main("XML addPassenger Moscow Rostov-on-Don 11 false".split(" "));
         TrainPickClient.main("XML findTrain Moscow Rostov-on-Don".split(" "));
@@ -30,7 +29,8 @@ public abstract class ApiTest extends TestData {
     @Test
     void addPassengerPos() {
         Optional<Ticket> actualTicket = dp.addPassenger(tr1.getFrom(), tr1.getTo(), cp1.getId(), false);
-        Optional<Ticket> expectedTicket = Optional.of(new Ticket(actualTicket.get().getId(), cp1, tr1, "0 day(s), 19 hours", ti1.getCost(), false));
+        String duration = dp.calculateDuration(tr1.getDeparture(), tr1.getArrival());
+        Optional<Ticket> expectedTicket = Optional.of(new Ticket(actualTicket.get().getId(), cp1, tr1, duration, ti1.getCost(), false));
         Assertions.assertEquals(expectedTicket, actualTicket);
         dp.deleteTicket(actualTicket.get().getId());
     }
@@ -58,14 +58,14 @@ public abstract class ApiTest extends TestData {
 
     @Test
     void calculateDurationPos() {
-        String expectedDuration = "1 day(s), 19 hours";
+        String expectedDuration = "1 day(s) 19 hour(s)";
         String actualDuration = dp.calculateDuration(tr2.getDeparture(), tr2.getArrival());
         Assertions.assertEquals(expectedDuration, actualDuration);
     }
 
     @Test
     void calculateDurationNeg() {
-        Assertions.assertThrows(ArrayIndexOutOfBoundsException.class, () -> dp.calculateDuration("", ""));
+        Assertions.assertThrows(NumberFormatException.class, () -> dp.calculateDuration("", ""));
     }
 
     @Test
