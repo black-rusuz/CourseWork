@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.sfedu.trainpick.TrainPickClient;
 import ru.sfedu.trainpick.model.bean.Passenger;
 import ru.sfedu.trainpick.model.bean.Ticket;
 import ru.sfedu.trainpick.model.bean.Train;
@@ -15,6 +16,16 @@ import java.util.Optional;
 
 public abstract class ApiTest extends TestData {
     protected AbstractDataProvider dp;
+
+    @Test
+    void testMain() {
+        TrainPickClient.main("XML addPassenger Moscow Rostov-on-Don 11 false".split(" "));
+        TrainPickClient.main("XML findTrain Moscow Rostov-on-Don".split(" "));
+        TrainPickClient.main("XML calculateDuration 21.03.2022//00:00 21.03.2022//18:00".split(" "));
+        TrainPickClient.main("XML calculatePrice 5000 0.5".split(" "));
+        TrainPickClient.main("XML viewPassengers 41".split(" "));
+        TrainPickClient.main("XML payTicket 51".split(" "));
+    }
 
     @Test
     void addPassengerPos() {

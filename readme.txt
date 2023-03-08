@@ -22,4 +22,9 @@ XML
 JDBC
 
 Примеры команд запуска:
-java -jar -Denv=./environment.properties -Dlog4j2.configurationFile=./log4j2.xml ./TrainPick.jar XML addPassenger Moscow Rostov-on-Don false
+java -jar -Denv=./environment.properties -Dlog4j2.configurationFile=./log4j2.xml ./TrainPick.jar XML addPassenger Moscow Rostov-on-Don 11 false
+java -jar -Denv=./environment.properties -Dlog4j2.configurationFile=./log4j2.xml ./TrainPick.jar XML findTrain Moscow Rostov-on-Don
+java -jar -Denv=./environment.properties -Dlog4j2.configurationFile=./log4j2.xml ./TrainPick.jar XML calculateDuration 01.01.2023//12:00 03.01.2023//14:00
+java -jar -Denv=./environment.properties -Dlog4j2.configurationFile=./log4j2.xml ./TrainPick.jar XML calculatePrice 1000 0.5
+java -jar -Denv=./environment.properties -Dlog4j2.configurationFile=./log4j2.xml ./TrainPick.jar XML viewPassengers 41
+java -jar -Denv=./environment.properties -Dlog4j2.configurationFile=./log4j2.xml ./TrainPick.jar XML payTicket 51

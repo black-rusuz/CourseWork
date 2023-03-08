@@ -18,18 +18,16 @@ public class TrainPickClient {
         dp = getDataProvider(args[0]);
         if (dp.getTrains().isEmpty()) loadSampleData();
 
-//        switch (args[1].toUpperCase()) {
-//            case (Constants.SEARCH_PARTS) -> dp.searchParts(args[2], args[3]);
-//            case (Constants.SEARCH_BY_NAME) -> dp.searchByName(args[2]);
-//            case (Constants.SEARCH_BY_VIN) -> dp.searchByVin(args[2]);
-//
-//            case (Constants.MODIFY_ORDER) -> dp.modifyOrder(args.length > 3 ? args[2] : "",
-//                    args.length > 3 ? Long.parseLong(args[3]) : 0);
-//            case (Constants.ADD_PART) -> dp.addPart(Long.parseLong(args[2]));
-//            case (Constants.REMOVE_PART) -> dp.removePart(Long.parseLong(args[2]));
-//            case (Constants.CALCULATE_TOTAL_PRICE) -> dp.calculateTotalPrice(Long.parseLong(args[2]));
-//            default -> log.error(Constants.WRONG_ARG);
-//        }
+        switch (args[1].toUpperCase()) {
+            case (Constants.ADD_PASSENGER) -> dp.addPassenger(args[2], args[3], Long.parseLong(args[4]), Boolean.parseBoolean(args[5]));
+            case (Constants.FIND_TRAIN) -> dp.findTrain(args[2], args[3]);
+            case (Constants.CALCULATE_DURATION) -> dp.calculateDuration(args[2], args[3]);
+            case (Constants.CALCULATE_PRICE) -> dp.calculatePrice(Double.parseDouble(args[2]), Double.parseDouble(args[3]));
+
+            case (Constants.VIEW_PASSENGERS) -> dp.viewPassengers(Long.parseLong(args[2]), args.length > 3 ? Long.parseLong(args[3]) : 0);
+            case (Constants.PAY_TICKET) -> dp.payTicket(Long.parseLong(args[2]));
+            default -> log.error(Constants.WRONG_ARG);
+        }
     }
 
     private static void checkArgumentsCount(String[] args) {

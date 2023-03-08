@@ -135,24 +135,38 @@ public abstract class AbstractDataProvider {
     }
 
     private LocalDateTime getDate(String dateTime) {
-        String[] dateAndTime = dateTime.split(" ");
+        String[] dateAndTime = dateTime.split("//");
         String date = dateAndTime[0];
-        String time = dateAndTime[1];
         List<Integer> dateNumbers = Arrays.stream(date.split("\\.")).map(Integer::parseInt).toList();
-        List<Integer> timeNumbers = Arrays.stream(time.split(":")).map(Integer::parseInt).toList();
+        List<Integer> timeNumbers;
+        if (dateAndTime.length != 1) {
+            String time = dateAndTime[1];
+            timeNumbers = Arrays.stream(time.split(":")).map(Integer::parseInt).toList();
+        } else {
+            timeNumbers = List.of(0, 0);
+        }
         return LocalDateTime.of(dateNumbers.get(2), dateNumbers.get(1), dateNumbers.get(0), timeNumbers.get(0), timeNumbers.get(1));
+    }
+
+    private String formatDuration(Duration duration) {
+        long days = duration.toDays();
+        long hours = duration.toHours();
+        hours = hours - days * 24;
+
+        String dur = "";
+        if (days != 0) dur += String.format(Constants.DAYS, days);
+        if (days != 0 && hours != 0) dur += " ";
+        if (hours != 0) dur += String.format(Constants.HOURS, hours);
+
+        return dur;
     }
 
     public String calculateDuration(String departure, String arrival) {
         LocalDateTime dep = getDate(departure);
         LocalDateTime arr = getDate(arrival);
-        Duration duration = Duration.between(dep, arr);
-        long days = duration.toDays();
-        long hours = duration.toHours();
-        hours = hours - days * 24;
-        String dur = String.format(Constants.DURATION, days, hours);
-        log.info(String.format(Constants.TRIP_DURATION, dur));
-        return dur;
+        String duration = formatDuration(Duration.between(dep, arr));
+        log.info(String.format(Constants.TRIP_DURATION, duration));
+        return duration;
     }
 
     public double calculatePrice(double price, double discount) {
