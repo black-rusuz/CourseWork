@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.sfedu</groupId>
-    <artifactId>train-pick</artifactId>
+    <artifactId>trainpick</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -22,7 +22,6 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
                             <mainClass>ru.sfedu.trainpick.TrainPickClient</mainClass>
                         </manifest>
                     </archive>
