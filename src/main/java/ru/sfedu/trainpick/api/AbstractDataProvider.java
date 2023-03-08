@@ -73,6 +73,12 @@ public abstract class AbstractDataProvider {
 
     // USE CASES
 
+    /**
+     * Найти любого пассажира
+     *
+     * @param passengerId id пассажира
+     * @return Optional.of(passenger)
+     */
     private Optional<Passenger> findPassenger(long passengerId) {
         Passenger p = getPassenger(passengerId);
         Passenger cp = getChildPassenger(passengerId);
@@ -87,6 +93,14 @@ public abstract class AbstractDataProvider {
         return passengers.stream().filter(e -> e.getId() != 0).findFirst();
     }
 
+    /**
+     * Найти поезд и добавить пассажира
+     * @param from откуда
+     * @param to куда
+     * @param passengerId id пассажира
+     * @param isPaid оплатил билет сразу (или забронировал)
+     * @return Optional.of(ticket)
+     */
     public Optional<Ticket> addPassenger(String from, String to, long passengerId, boolean isPaid) {
         Optional<Ticket> result;
         Optional<Train> optionalTrain = findTrain(from, to);
@@ -118,6 +132,12 @@ public abstract class AbstractDataProvider {
         return result;
     }
 
+    /**
+     * Найти поезд по пункту отправления и назначения
+     * @param from откуда
+     * @param to куда
+     * @return Optional.of(train)
+     */
     public Optional<Train> findTrain(String from, String to) {
         List<Train> trains = getTrains();
         trains = trains.stream()
@@ -134,6 +154,11 @@ public abstract class AbstractDataProvider {
         return result;
     }
 
+    /**
+     * Получить LocalDateTime из String
+     * @param dateTime например 31.12.1999//23:59
+     * @return LocalDateTime.of(1999, 12, 31, 23, 59)
+     */
     private LocalDateTime getDate(String dateTime) {
         String[] dateAndTime = dateTime.split("//");
         String date = dateAndTime[0];
@@ -148,6 +173,11 @@ public abstract class AbstractDataProvider {
         return LocalDateTime.of(dateNumbers.get(2), dateNumbers.get(1), dateNumbers.get(0), timeNumbers.get(0), timeNumbers.get(1));
     }
 
+    /**
+     * Форматный вывод продолжительности
+     * @param duration продолжительность
+     * @return 1 day(s) 8 hour(s)
+     */
     private String formatDuration(Duration duration) {
         long days = duration.toDays();
         long hours = duration.toHours();
@@ -161,6 +191,12 @@ public abstract class AbstractDataProvider {
         return dur;
     }
 
+    /**
+     * Расчёт продолжительности поездки
+     * @param departure отправление
+     * @param arrival прибытие
+     * @return продолжительность
+     */
     public String calculateDuration(String departure, String arrival) {
         LocalDateTime dep = getDate(departure);
         LocalDateTime arr = getDate(arrival);
@@ -169,12 +205,24 @@ public abstract class AbstractDataProvider {
         return duration;
     }
 
+    /**
+     * Расчёт стоимости с учётом скидки
+     * @param price цена поезда
+     * @param discount скидка пассажира
+     * @return стоимость поездки
+     */
     public double calculatePrice(double price, double discount) {
         double cost = price * (1 - discount);
         log.info(String.format(Constants.COST, cost));
         return cost;
     }
 
+    /**
+     * Просмотр пассажиров поезда и оплата выбранного билета
+     * @param trainId id поезда
+     * @param ticketId id билета
+     * @return Список пассажиров поезда
+     */
     public List<Passenger> viewPassengers(long trainId, long ticketId) {
         if (ticketId != 0) {
             payTicket(ticketId);
@@ -191,6 +239,11 @@ public abstract class AbstractDataProvider {
         return passengers;
     }
 
+    /**
+     * Оплатить билет
+     * @param ticketId id билета
+     * @return Optional.of(ticket)
+     */
     public Optional<Ticket> payTicket(long ticketId) {
         Optional<Ticket> result;
         Ticket ticket = getTicket(ticketId);
