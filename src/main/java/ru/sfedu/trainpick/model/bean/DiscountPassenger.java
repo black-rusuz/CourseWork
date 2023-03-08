@@ -2,7 +2,6 @@ package ru.sfedu.trainpick.model.bean;
 
 import com.opencsv.bean.CsvBindByPosition;
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
 
 import java.util.Objects;
 

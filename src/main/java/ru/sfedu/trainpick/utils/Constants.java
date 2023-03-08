@@ -42,7 +42,8 @@ public class Constants {
     public static final String WRONG_DP = "Wrong type of DataProvider";
     public static final String WRONG_ARG = "Wrong argument";
 
-    public static final String DURATION = "Trip duration: %d day(s), %d hours";
+    public static final String TRIP_DURATION = "Trip duration: %s";
+    public static final String DURATION = "%d day(s), %d hours";
     public static final String COST = "Trip cost: %.2f roubles";
     public static final String TICKET = "Your ticket: %s";
     public static final String NO_TRAINS = "There are no trains from %s to %s";

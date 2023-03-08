@@ -151,12 +151,12 @@ public abstract class AbstractDataProvider {
         long hours = duration.toHours();
         hours = hours - days * 24;
         String dur = String.format(Constants.DURATION, days, hours);
-        log.info(dur);
+        log.info(String.format(Constants.TRIP_DURATION, dur));
         return dur;
     }
 
     public double calculatePrice(double price, double discount) {
-        double cost = price * discount;
+        double cost = price * (1 - discount);
         log.info(String.format(Constants.COST, cost));
         return cost;
     }
