@@ -16,7 +16,7 @@ public class TrainPickClient {
     public static void main(String[] args) {
         checkArgumentsCount(args);
         dp = getDataProvider(args[0]);
-        if (dp.getTrains().isEmpty()) loadSampleData();
+        if (dp.getTickets().isEmpty()) loadSampleData();
 
         switch (args[1].toUpperCase()) {
             case (Constants.ADD_PASSENGER) -> dp.addPassenger(args[2], args[3], Long.parseLong(args[4]), Boolean.parseBoolean(args[5]));

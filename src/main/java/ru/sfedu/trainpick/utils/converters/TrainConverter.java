@@ -12,8 +12,7 @@ public class TrainConverter extends AbstractBeanField<Train, String> {
 
     public static Train fromString(String string) {
         String[] parsed = string.split(fieldsDelimiter);
-        return new Train(Long.parseLong(parsed[0]), parsed[1], parsed[2], parsed[3], parsed[4], Double.parseDouble(parsed[5])
-        );
+        return new Train(Long.parseLong(parsed[0]), parsed[1], parsed[2], parsed[3], parsed[4], Double.parseDouble(parsed[5]));
     }
 
     public static String toString(Object object) {
